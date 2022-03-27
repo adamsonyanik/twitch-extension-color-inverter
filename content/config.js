@@ -1,8 +1,9 @@
-let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)" };
+let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)", filter: "invert(85%) hue-rotate(180deg)" };
 let config = defaultConfig;
 
 function updateConfigUI(){
 	document.getElementById("clip-path-input").value = config.clipPath;
+	document.getElementById("filter-input").value = config.filter;
 }
 
 const twitch = window.Twitch.ext;
@@ -18,6 +19,7 @@ function setTwitchConfig(twitchConfig){
 
 function saveConfig(){
 	config.clipPath = document.getElementById("clip-path-input").value;
+	config.filter = document.getElementById("filter-input").value;
 
 	setTwitchConfig(config);
 }

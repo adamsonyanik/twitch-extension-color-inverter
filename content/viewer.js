@@ -1,4 +1,4 @@
-let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)" };
+let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)", filter: "invert(85%) hue-rotate(180deg)" };
 let config = defaultConfig;
 
 let isDarkMode = false;
@@ -28,6 +28,8 @@ function setButtonVisibilityIfNotButton(visible) {
 
 function updateConfigUI() {
     document.getElementById("overlay").style.clipPath = config.clipPath;
+    document.getElementById("overlay").style.backdropFilter = config.filter;
+    document.getElementById("overlay").style.webkitBackdropFilter = config.filter;
 }
 
 window.onload = () => {

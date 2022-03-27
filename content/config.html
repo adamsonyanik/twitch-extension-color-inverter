@@ -10,6 +10,11 @@
     <div style="background: white; border-radius: 4px; padding: 10px">
         <h2 style="margin-top: 0">Configuration</h2>
         <div style="padding: 10px">
+            <h4 style="margin: 0;">Filter</h4>
+            <span style="color: dimgrey; font-size: 0.9em;">The overlay uses the css property <tt>backdrop-filter</tt> for inverting the colors, a dark/light mode could be implemented with <tt>invert(85%) hue-rotate(180deg)</tt>, see more info at: <a href="https://developer.mozilla.org/docs/Web/CSS/backdrop-filter">mdn backdrop-filter</a></span>
+            <input id="filter-input" type="text" style="height: 20px; width: calc(100% - 10px);"></intput>
+        </div>
+        <div style="padding: 10px">
             <h4 style="margin: 0;">Modified Area</h4>
             <span style="color: dimgrey; font-size: 0.9em;">The overlay uses the css property <tt>clip-mask</tt> for the modified area, a rectangular mask could be implemented with <tt>inset(10% 20% 30% 40%)</tt>, see more info at: <a href="https://developer.mozilla.org/docs/Web/CSS/clip-path">mdn clip-path</a>. Use percentages so the mask is independent from the viewers stream viewport size.</span>
             <input id="clip-path-input" type="text" style="height: 20px; width: calc(100% - 10px);"></intput>
