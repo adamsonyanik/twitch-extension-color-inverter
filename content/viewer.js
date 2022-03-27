@@ -7,14 +7,10 @@ function toggleDarkMode(){
 
 function setThemeMode(){
   if (isDarkMode){
-    document.getElementById("overlay-1").removeAttribute("hidden");
-    document.getElementById("overlay-2").removeAttribute("hidden");
-    
+    document.getElementById("overlay").removeAttribute("hidden");
     document.getElementById("toggle-dark-mode-button").style.filter = "invert(100%)";
   } else {
-    document.getElementById("overlay-1").setAttribute("hidden", true);
-    document.getElementById("overlay-2").setAttribute("hidden", true);
-
+    document.getElementById("overlay").setAttribute("hidden", true);
     document.getElementById("toggle-dark-mode-button").style.filter = "";
   }
 }
@@ -36,7 +32,7 @@ window.onload = () => {
   setThemeMode();
 }
 
-let config = { corner: "none", width: "0", height: "0" };
+let config = { clipPath: "inset(10% 20% 30% 40%)" };
 
 const twitch = window.Twitch.ext;
 
@@ -58,45 +54,5 @@ twitch.configuration.onChanged(() => {
 });
 
 function updateConfig(){
-  document.getElementById("overlay-1").style.width = "100%";
-  document.getElementById("overlay-1").style.left = "0";
-
-  document.getElementById("overlay-2").style.width = 100 - config.width + "%";
-  document.getElementById("overlay-2").style.height = config.height + "%";
-
-  if (config.corner == "top-left"){
-    document.getElementById("overlay-1").style.height = (100 - config.height) + "%";
-    document.getElementById("overlay-1").style.top = config.height + "%";
-
-    document.getElementById("overlay-2").style.left = config.width + "%";
-    document.getElementById("overlay-2").style.top = "0";
-  }
-  else if (config.corner == "top-right"){
-    document.getElementById("overlay-1").style.height = (100 - config.height) + "%";
-    document.getElementById("overlay-1").style.top = config.height + "%";
-
-    document.getElementById("overlay-2").style.left = "0";
-    document.getElementById("overlay-2").style.top = "0";
-  }
-  else if (config.corner == "bottom-left"){
-    document.getElementById("overlay-1").style.height = (100 - config.height) + "%";
-    document.getElementById("overlay-1").style.top = "0";
-
-    document.getElementById("overlay-2").style.left = config.width + "%";
-    document.getElementById("overlay-2").style.top = 100 - config.height + "%";
-  }
-  else if (config.corner == "bottom-right"){
-    document.getElementById("overlay-1").style.height = (100 - config.height) + "%";
-    document.getElementById("overlay-1").style.top = "0";
-
-    document.getElementById("overlay-2").style.left = "0";
-    document.getElementById("overlay-2").style.top = 100 - config.height + "%";
-  }
-  else if (config.corner == "none"){
-    document.getElementById("overlay-1").style.height = "100%";
-    document.getElementById("overlay-1").style.top = "0";
-
-    document.getElementById("overlay-2").style.width = "0";
-    document.getElementById("overlay-2").style.height = "0";
-  }
+  document.getElementById("overlay").style.clipPath = config.clipPath;
 }
