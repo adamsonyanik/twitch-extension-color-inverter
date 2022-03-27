@@ -9,28 +9,29 @@ function setThemeMode(){
   if (isDarkMode){
     document.getElementById("overlay-1").removeAttribute("hidden");
     document.getElementById("overlay-2").removeAttribute("hidden");
+    
+    document.getElementById("toggle-dark-mode-button").style.filter = "invert(100%)";
   } else {
     document.getElementById("overlay-1").setAttribute("hidden", true);
     document.getElementById("overlay-2").setAttribute("hidden", true);
+
+    document.getElementById("toggle-dark-mode-button").style.filter = "";
   }
 }
 
-function setButtonVisibilityIfNotButton(visible, toElement) {
-  if (toElement == document.getElementById("toggleDarkModeButton"))
-    return;
-
+function setButtonVisibilityIfNotButton(visible) {
   if (visible){
-    document.getElementById("toggleDarkModeButton").removeAttribute("hidden");
+    document.getElementById("toggle-dark-mode-button").removeAttribute("hidden");
   } else {
-    document.getElementById("toggleDarkModeButton").setAttribute("hidden", true);
+    document.getElementById("toggle-dark-mode-button").setAttribute("hidden", true);
   }
 }
 
 window.onload = () => {
-  document.getElementById("toggleDarkModeButton").addEventListener("click", () => toggleDarkMode());
+  document.getElementById("toggle-dark-mode-button").addEventListener("click", () => toggleDarkMode());
 
-  document.getElementById("overlay-eventlistener").addEventListener("mouseenter", () => setButtonVisibilityIfNotButton(true));
-  document.getElementById("overlay-eventlistener").addEventListener("mouseleave", e => setButtonVisibilityIfNotButton(false, e.toElement));
+  document.getElementById("overlay-ui").addEventListener("mouseenter", () => setButtonVisibilityIfNotButton(true));
+  document.getElementById("overlay-ui").addEventListener("mouseleave", () => setButtonVisibilityIfNotButton(false));
 
   setThemeMode();
 }
