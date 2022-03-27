@@ -1,58 +1,73 @@
+let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)" };
+let config = defaultConfig;
+
 let isDarkMode = false;
 
-function toggleDarkMode(){
-  isDarkMode = !isDarkMode;
-  setThemeMode();
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    setThemeMode();
 }
 
-function setThemeMode(){
-  if (isDarkMode){
-    document.getElementById("overlay").removeAttribute("hidden");
-    document.getElementById("toggle-dark-mode-button").style.filter = "invert(100%)";
-  } else {
-    document.getElementById("overlay").setAttribute("hidden", true);
-    document.getElementById("toggle-dark-mode-button").style.filter = "";
-  }
+function setThemeMode() {
+    if (isDarkMode) {
+        document.getElementById("overlay").removeAttribute("hidden");
+        document.getElementById("toggle-dark-mode-button").style.filter = "invert(100%)";
+    } else {
+        document.getElementById("overlay").setAttribute("hidden", true);
+        document.getElementById("toggle-dark-mode-button").style.filter = "";
+    }
 }
 
 function setButtonVisibilityIfNotButton(visible) {
-  if (visible){
-    document.getElementById("toggle-dark-mode-button").removeAttribute("hidden");
-  } else {
-    document.getElementById("toggle-dark-mode-button").setAttribute("hidden", true);
-  }
+    if (visible) {
+        document.getElementById("toggle-dark-mode-button").removeAttribute("hidden");
+    } else {
+        document.getElementById("toggle-dark-mode-button").setAttribute("hidden", true);
+    }
+}
+
+function updateConfigUI() {
+    document.getElementById("overlay").style.clipPath = config.clipPath;
 }
 
 window.onload = () => {
-  document.getElementById("toggle-dark-mode-button").addEventListener("click", () => toggleDarkMode());
+    document.getElementById("toggle-dark-mode-button").addEventListener("click", () => toggleDarkMode());
 
-  document.getElementById("overlay-ui").addEventListener("mouseenter", () => setButtonVisibilityIfNotButton(true));
-  document.getElementById("overlay-ui").addEventListener("mouseleave", () => setButtonVisibilityIfNotButton(false));
+    document.getElementById("overlay-ui").addEventListener("mouseenter", () => setButtonVisibilityIfNotButton(true));
+    document.getElementById("overlay-ui").addEventListener("mouseleave", () => setButtonVisibilityIfNotButton(false));
 
-  setThemeMode();
+    updateConfigUI();
+    setThemeMode();
 }
-
-let config = { clipPath: "inset(10% 20% 30% 40%)" };
 
 const twitch = window.Twitch.ext;
 
 twitch.configuration.onChanged(() => {
-	if (twitch.configuration.broadcaster) {
-		try {
-			const newConfig = JSON.parse(twitch.configuration.broadcaster.content);
-	  
-			if (typeof newConfig === 'object') {
-				config = newConfig;
-				updateConfig();
-			} else {
-				console.err("Invalid config: " + newConfig);
-			}
-		} catch (e) {
-	  		console.err("Invalid config: " + newConfig);
-		}
-	}
+    if (twitch.configuration.broadcaster) {
+        let newConfig;
+        try {
+            newConfig = JSON.parse(twitch.configuration.broadcaster.content);
+            updateConfig(newConfig);
+        } catch (e) {
+            console.error(e);
+            console.error("Invalid config: ");
+            console.error(newConfig);
+        }
+    }
 });
 
-function updateConfig(){
-  document.getElementById("overlay").style.clipPath = config.clipPath;
+function updateConfig(newConfig) {
+    if (typeof newConfig === 'object') {
+        config = newConfig;
+
+        for (const [key] of Object.entries(defaultConfig)) {
+            if (!newConfig[key])
+                newConfig[key] = defaultConfig[key];
+        }
+
+        updateConfigUI();
+    } else {
+        console.error("Invalid config: ");
+        console.error(newConfig);
+    }
 }
