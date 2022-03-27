@@ -1,0 +1,53 @@
+Name {
+Color-Inverter
+}
+
+Summary {
+Going dark!
+}
+
+Description {
+Inverts the colors of the stream. Use this if you want to give the view a dark theme option.
+
+Github: https://github.com/adamsonyanik/twitch-extension-color-inverter
+}
+
+Viewer Summary {
+Going dark! Enables DarkTheme. Inverts the colors of the stream.
+}
+
+Author Name {
+Yanik Adamson
+}
+
+General Category {
+Streamer Tools
+}
+
+Category {
+Software and Game Development
+}
+
+Logo Image {
+icon.png
+}
+
+Taskbar Icon Image {
+icon24.png
+}
+
+Discovery Image {
+banner.png
+}
+
+Screenshot Image {
+screenshot1.png
+}
+
+Author Email {
+yadamsond@gmail.com
+}
+
+Support Email {
+yadamsond@gmail.com
+}
