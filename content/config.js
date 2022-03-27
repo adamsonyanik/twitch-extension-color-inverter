@@ -1,7 +1,16 @@
 let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)" };
 let config = defaultConfig;
 
+function updateConfigUI(){
+	document.getElementById("clip-path-input").value = config.clipPath;
+}
+
 const twitch = window.Twitch.ext;
+
+window.onload = () => {
+	document.getElementById("save-button").addEventListener("click", () => saveConfig());
+	document.getElementById("reset-button").addEventListener("click", () => resetConfig());
+}
 
 function setTwitchConfig(twitchConfig){
 	twitch.configuration.set('broadcaster', '0.0.2', JSON.stringify(twitchConfig));
@@ -11,8 +20,6 @@ function saveConfig(){
 	config.clipPath = document.getElementById("clip-path-input").value;
 
 	setTwitchConfig(config);
-
-	console.log(config);
 }
 
 function resetConfig(){
@@ -34,15 +41,6 @@ function updateConfig(newConfig){
 		console.error("Invalid config: ");
 		console.error(newConfig);
 	}
-}
-
-function updateConfigUI(){
-	document.getElementById("clip-path-input").value = config.clipPath;
-}
-
-window.onload = () => {
-	document.getElementById("save-button").addEventListener("click", () => saveConfig());
-	document.getElementById("reset-button").addEventListener("click", () => resetConfig());
 }
 
 function loadConfig(){
