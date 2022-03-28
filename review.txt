@@ -1,0 +1,16 @@
+v0.0.2
+
+The extension adds a overlay filter with the css property backdrop-filter, which can be used to switch between dark/light mode.
+
+Features:
+- mask out streamer camera or other areas
+- set custom filter by defining backdrop-filter property
+
+Walkthrough:
+- in config: set filter and clip-path, you can reset your changes
+- in stream: toggle overlay by clicking on the button on the top right
+
+Change log:
+- toggled button colors
+- modified area: moved from specifing unmodified corner to modified clip-path
+- filter: made filter customizable
