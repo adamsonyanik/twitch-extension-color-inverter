@@ -1,62 +1,28 @@
-let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)", filter: "invert(85%) hue-rotate(180deg)" };
-let config = defaultConfig;
+const clipPathInputId = "clip-path-input";
+const filterInputId = "filter-input";
+const saveButtonId = "save-button";
+const resetButtonId = "reset-button";
 
-function updateConfigUI(){
-	document.getElementById("clip-path-input").value = config.clipPath;
-	document.getElementById("filter-input").value = config.filter;
+function updateConfigUI() {
+	ci.getEl(clipPathInputId).value = ci.config.clipPath;
+	ci.getEl(filterInputId).value = ci.config.filter;
 }
-
-const twitch = window.Twitch.ext;
 
 window.onload = () => {
-	document.getElementById("save-button").addEventListener("click", () => saveConfig());
-	document.getElementById("reset-button").addEventListener("click", () => resetConfig());
+	ci.getEl(saveButtonId).addEventListener("click", saveConfig);
+	ci.getEl(resetButtonId).addEventListener("click", resetConfig);
 }
 
-function setTwitchConfig(twitchConfig){
-	twitch.configuration.set('broadcaster', '0.0.2', JSON.stringify(twitchConfig));
+function saveConfig() {
+	ci.config = {
+		clipPath: ci.getEl(clipPathInputId).value,
+		filter: ci.getEl(filterInputId).value
+	};
+
+	ci.pushTwitchConfig(ci.config);
 }
 
-function saveConfig(){
-	config.clipPath = document.getElementById("clip-path-input").value;
-	config.filter = document.getElementById("filter-input").value;
-
-	setTwitchConfig(config);
+function resetConfig() {
+	ci.pushTwitchConfig(ci.DEFAULT_CONFIG);
+	ci.updateConfig(ci.DEFAULT_CONFIG);
 }
-
-function resetConfig(){
-	setTwitchConfig(defaultConfig);
-	updateConfig(defaultConfig);
-}
-
-function updateConfig(newConfig){
-	if (typeof newConfig === 'object') {
-		config = newConfig;
-
-		for (const [key] of Object.entries(defaultConfig)) {
-			if (!newConfig[key])
-				newConfig[key] = defaultConfig[key];
-		}
-
-		updateConfigUI();
-	} else {
-		console.error("Invalid config: ");
-		console.error(newConfig);
-	}
-}
-
-function loadConfig(){
-	if (twitch.configuration.broadcaster) {
-		let newConfig;
-		try {
-			newConfig = JSON.parse(twitch.configuration.broadcaster.content);
-			updateConfig(newConfig);
-		} catch (e) {
-			console.error(e);
-			console.error("Invalid config: ");
-			console.error(newConfig);
-		}
-	}
-}
-
-twitch.configuration.onChanged(loadConfig);

@@ -1,75 +1,44 @@
-let defaultConfig = { clipPath: "inset(0% 0% 0% 0%)", filter: "invert(85%) hue-rotate(180deg)" };
-let config = defaultConfig;
+let isDarkTheme = false;
 
-let isDarkMode = false;
-
-function toggleDarkMode() {
-    isDarkMode = !isDarkMode;
-    setThemeMode();
-}
-
-function setThemeMode() {
-    if (isDarkMode) {
-        document.getElementById("overlay").removeAttribute("hidden");
-        document.getElementById("toggle-dark-mode-button").style.filter = "invert(100%)";
-    } else {
-        document.getElementById("overlay").setAttribute("hidden", true);
-        document.getElementById("toggle-dark-mode-button").style.filter = "";
-    }
-}
-
-function setButtonVisibilityIfNotButton(visible) {
-    if (visible) {
-        document.getElementById("toggle-dark-mode-button").removeAttribute("hidden");
-    } else {
-        document.getElementById("toggle-dark-mode-button").setAttribute("hidden", true);
-    }
-}
+const toggleDarkThemeButtonId = "toggle-dark-theme-button";
+const overlayId = "overlay";
+const overlayUiId = "overlay-ui";
 
 function updateConfigUI() {
-    document.getElementById("overlay").style.clipPath = config.clipPath;
-    document.getElementById("overlay").style.backdropFilter = config.filter;
-    document.getElementById("overlay").style.webkitBackdropFilter = config.filter;
+    ci.getEl(overlayId).style.clipPath = ci.config.clipPath;
+    ci.getEl(overlayId).style.backdropFilter = ci.config.filter;
+    ci.getEl(overlayId).style.webkitBackdropFilter = ci.config.filter;
 }
 
 window.onload = () => {
-    document.getElementById("toggle-dark-mode-button").addEventListener("click", () => toggleDarkMode());
+    ci.getEl(toggleDarkThemeButtonId).addEventListener("click", toggleDarkTheme);
 
-    document.getElementById("overlay-ui").addEventListener("mouseenter", () => setButtonVisibilityIfNotButton(true));
-    document.getElementById("overlay-ui").addEventListener("mouseleave", () => setButtonVisibilityIfNotButton(false));
+    ci.getEl(overlayUiId).addEventListener("mouseenter", () => setButtonVisibile(true));
+    ci.getEl(overlayUiId).addEventListener("mouseleave", () => setButtonVisibile(false));
 
     updateConfigUI();
-    setThemeMode();
+    setTheme();
 }
 
-const twitch = window.Twitch.ext;
+function toggleDarkTheme() {
+    isDarkTheme = !isDarkTheme;
+    setTheme();
+}
 
-twitch.configuration.onChanged(() => {
-    if (twitch.configuration.broadcaster) {
-        let newConfig;
-        try {
-            newConfig = JSON.parse(twitch.configuration.broadcaster.content);
-            updateConfig(newConfig);
-        } catch (e) {
-            console.error(e);
-            console.error("Invalid config: ");
-            console.error(newConfig);
-        }
-    }
-});
-
-function updateConfig(newConfig) {
-    if (typeof newConfig === 'object') {
-        config = newConfig;
-
-        for (const [key] of Object.entries(defaultConfig)) {
-            if (!newConfig[key])
-                newConfig[key] = defaultConfig[key];
-        }
-
-        updateConfigUI();
+function setTheme() {
+    if (isDarkTheme) {
+        ci.getEl(overlayId).removeAttribute("hidden");
+        ci.getEl(toggleDarkThemeButtonId).style.filter = "invert(100%)";
     } else {
-        console.error("Invalid config: ");
-        console.error(newConfig);
+        ci.getEl(overlayId).setAttribute("hidden", true);
+        ci.getEl(toggleDarkThemeButtonId).style.filter = "";
+    }
+}
+
+function setButtonVisibile(visible) {
+    if (visible) {
+        ci.getEl(toggleDarkThemeButtonId).removeAttribute("hidden");
+    } else {
+        ci.getEl(toggleDarkThemeButtonId).setAttribute("hidden", true);
     }
 }
