@@ -8,10 +8,44 @@
     <script src="color_inverter.js" type="text/javascript"></script>
     <script src="viewer.js" type="text/javascript"></script>
 
-    <div id="overlay-ui" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; z-index: 4; background-color: transparent;">
-        <button id="toggle-dark-theme-button" style="cursor: pointer; position: absolute; width: 50px; height: 50px; top: 60px; right: 25px; background: url('togglebutton.png'); border: 0; border-radius: 4px"></button>
+    <div id="overlay-ui">
+        <button id="toggle-dark-theme-button"></button>
     </div>
 
-    <div id="overlay" hidden style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; z-index: 3;"></div>
+    <div id="overlay" hidden></div>
+
+    <style>
+        #overlay-ui, #overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        #overlay {
+            z-index: 3;
+        }
+
+        #overlay-ui {
+            z-index: 4;
+            background-color: transparent;
+        }
+
+        #toggle-dark-theme-button {
+            cursor: pointer;
+
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            top: 60px;
+            right: 25px;
+            
+            background: url('togglebutton.png');
+            
+            border: 0;
+            border-radius: 4px;
+        }
+    </style>
 </body>
 </html>
